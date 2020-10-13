@@ -1,3 +1,4 @@
+#!/usr/bin/env sh
 image_version=`date +%Y%m%d%H%M`;
 echo $image_version
 git pull --rebase origin master;
