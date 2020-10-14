@@ -1,5 +1,5 @@
 <template>
   <div class="softcat_index">
-    hello a.
+    hello b.
   </div>
 </template>
