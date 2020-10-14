@@ -1,10 +1,14 @@
 #!/usr/bin/env sh
 image_version=`date +%Y%m%d%H%M`;
 echo $image_version
-git pull --rebase origin master;
-docker stop test_vue;
-docker rm test_vue;
-docker build -t test_vue:$image_version .;
+
+docker stop test_vue
+sleep 1
+docker ps -a | grep test_vue | grep -v "grep" | awk '{print $1}' | xargs docker rm -f
+sleep 1
+docker images | grep test_vue | grep -v "grep" | awk '{print $3}' | xargs docker rmi
+sleep 1
+
+docker build -t test_vue .;
 docker images;
-docker run -p 8220:80 -d --name test_vue test_vue:$image_version;
-docker logs test_vue;
+docker run -p 8220:80 -d --name test_vue test_vue;

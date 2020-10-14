@@ -1,14 +1,15 @@
-FROM node:lts-alpine as build-stage
-WORKDIR /app
-COPY package*.json ./
-RUN npm install -g cnpm --registry=https://registry.npm.taobao.org
-RUN cnpm install
-COPY . .
-RUN npm run build
+FROM nginx:latest
 
-FROM nginx:latest as production-stage
-COPY config/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf
-COPY --from=build-stage /app/dist /usr/share/nginx/html
+MAINTAINER zjnblank.top
+
+ADD default.conf /etc/nginx/conf.d/default.conf
+
+ADD setup.sh start.sh
+
+ADD dist /usr/share/nginx/html
 
 EXPOSE 80
+
+#ENTRYPOINT ["java", "-jar", "/app.jar"]
+#CMD ["nohup", "java", "-jar", "-Duser.timezone=GMT+08", "/app.jar", ">", "/apperr.log", "2>&1&"]
 CMD ["nginx", "-g", "daemon off;"]
