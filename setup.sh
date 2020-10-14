@@ -11,4 +11,4 @@ sleep 1
 
 docker build -t test_vue .;
 docker images;
-docker run -p 8220:80 -d --name test_vue test_vue;
+docker run -p 8220:80 -d --name test_vue --network nginx_bridge_test test_vue;
